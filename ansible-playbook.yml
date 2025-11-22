@@ -1,0 +1,25 @@
+---
+- name: Deploy simple HTML site
+  hosts: localhost
+  tasks:
+
+    - name: Ensure site directory exists
+      file:
+        path: /var/lib/jenkins/site
+        state: directory
+
+    - name: Create index.html
+      copy:
+        content: "<h1>Hello from Ansible!</h1>"
+        dest: /var/lib/jenkins/site/index.html
+
+    - name: Build Docker image
+      shell: docker build -t site /var/lib/jenkins/site
+      args:
+        chdir: /var/lib/jenkins/site
+
+    - name: Remove old container if exists
+      shell: docker rm -f site || true
+
+    - name: Run Docker container
+      shell: docker run --name site -d -p 5000:80 site
