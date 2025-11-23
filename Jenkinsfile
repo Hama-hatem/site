@@ -1,32 +1,20 @@
 pipeline {
     agent any
 
-    environment {
-        TF_WORKDIR = "/home/ubuntu/mytf"
-    }
-
     stages {
-        stage('Terraform Init') {
+        stage('Init') {
             steps {
-                dir("${TF_WORKDIR}") {
-                    sh 'terraform init'
-                }
+                sh "cd /var/lib/jenkins/mytf && terraform init"
             }
         }
-
-        stage('Terraform Plan') {
+        stage('Plan') {
             steps {
-                dir("${TF_WORKDIR}") {
-                    sh 'terraform plan'
-                }
+                sh \"cd /var/lib/jenkins/mytf && terraform plan\"
             }
         }
-
-        stage('Terraform Apply') {
+        stage('Apply') {
             steps {
-                dir("${TF_WORKDIR}") {
-                    sh 'terraform apply -auto-approve'
-                }
+                sh \"cd /var/lib/jenkins/mytf && terraform apply -auto-approve\"
             }
         }
     }
