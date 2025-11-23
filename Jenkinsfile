@@ -7,14 +7,16 @@ pipeline {
                 sh "cd /var/lib/jenkins/mytf && terraform init"
             }
         }
+
         stage('Plan') {
             steps {
-                sh \"cd /var/lib/jenkins/mytf && terraform plan\"
+                sh "cd /var/lib/jenkins/mytf && terraform plan"
             }
         }
+
         stage('Apply') {
             steps {
-                sh \"cd /var/lib/jenkins/mytf && terraform apply -auto-approve\"
+                sh "cd /var/lib/jenkins/mytf && terraform apply -auto-approve"
             }
         }
     }
