@@ -2,45 +2,21 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/Hama-hatem/audi.git'
-            }
-        }
-
         stage('Init') {
             steps {
-                sh '''
-                if [ -d "$WORKSPACE/audi" ]; then
-                    cd $WORKSPACE/audi
-                    terraform init
-                else
-                    echo "Folder audi not found!"
-                    exit 1
-                fi
-                '''
+                sh "cd $WORKSPACE/audi/site && terraform init"
             }
         }
 
         stage('Plan') {
             steps {
-                sh '''
-                if [ -d "$WORKSPACE/audi" ]; then
-                    cd $WORKSPACE/audi
-                    terraform plan
-                fi
-                '''
+                sh "cd $WORKSPACE/audi/site && terraform plan"
             }
         }
 
         stage('Apply') {
             steps {
-                sh '''
-                if [ -d "$WORKSPACE/audi" ]; then
-                    cd $WORKSPACE/audi
-                    terraform apply -auto-approve
-                fi
-                '''
+                sh "cd $WORKSPACE/audi/site && terraform apply -auto-approve"
             }
         }
     }
