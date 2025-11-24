@@ -4,19 +4,19 @@ pipeline {
     stages {
         stage('Init') {
             steps {
-                sh "cd $WORKSPACE/site && terraform init"
+                sh "cd $WORKSPACE && terraform init"
             }
         }
 
         stage('Plan') {
             steps {
-                sh "cd $WORKSPACE/site && terraform plan"
+                sh "cd $WORKSPACE && terraform plan"
             }
         }
 
         stage('Apply') {
             steps {
-                sh "cd $WORKSPACE/site && terraform apply -auto-approve"
+                sh "cd $WORKSPACE && terraform apply -auto-approve"
             }
         }
     }
